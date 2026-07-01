@@ -1,0 +1,261 @@
+.dash-hero-text {
+  max-width: 600px;
+  opacity: 0.92;
+}
+
+.dash-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.dash-metric-primary .metric-value {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.dash-accounts-panel {
+  height: 100%;
+}
+
+.dash-account-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-account-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+  border-radius: 12px;
+  margin: 0 -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.dash-account-row:last-child {
+  border-bottom: none;
+}
+
+.dash-account-row:hover {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.dash-account-info {
+  min-width: 0;
+}
+
+.dash-account-number {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.dash-account-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.dash-account-balance {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.dash-account-balance strong {
+  display: block;
+  font-size: 1.15rem;
+  color: var(--primary-dark);
+}
+
+.dash-account-balance span {
+  font-size: 0.78rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.dash-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.dash-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dash-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  color: inherit;
+}
+
+.dash-action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.dash-action-icon--deposit {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.dash-action-icon--withdraw {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.dash-action-icon--transfer {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0ea5e9;
+}
+
+.dash-action-copy strong {
+  display: block;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.dash-action-copy span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.dash-activity-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+  border-radius: 12px;
+  margin: 0 -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.dash-activity-link:last-child {
+  border-bottom: none;
+}
+
+.dash-activity-link:hover {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.dash-activity-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dash-activity-icon--deposit {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.dash-activity-icon--withdraw {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.dash-activity-icon--transfer {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0ea5e9;
+}
+
+.dash-activity-icon--default {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+}
+
+.dash-activity-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-activity-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dash-activity-amount {
+  font-weight: 700;
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+.dash-activity-amount.positive {
+  color: var(--success);
+}
+
+.dash-empty-cta {
+  margin-top: 1rem;
+}
+
+.dash-error-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dash-skeleton-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.dash-skeleton-block {
+  border-radius: 18px;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+@media (max-width: 768px) {
+  .dash-metrics,
+  .dash-skeleton-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-account-row {
+    flex-wrap: wrap;
+  }
+
+  .dash-account-balance {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
