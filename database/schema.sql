@@ -51,9 +51,3 @@ CREATE TABLE transactions (
 CREATE INDEX idx_txn_from ON transactions(from_account_id);
 CREATE INDEX idx_txn_to   ON transactions(to_account_id);
 CREATE INDEX idx_txn_date ON transactions(created_at);
-
--- ============ SEED: Default Admin (password = admin123, BCrypt hashed) ============
--- NOTE: This hash is for "admin123" - we will regenerate properly in Step 4.
--- For now, create a placeholder; we'll insert the real admin via the app later.
-INSERT INTO users (email, password, first_name, last_name, role)
-VALUES ('admin@bank.com', '$2a$10$PLACEHOLDER_REPLACE_LATER', 'System', 'Admin', 'ADMIN');

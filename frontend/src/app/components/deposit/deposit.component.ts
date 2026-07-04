@@ -54,6 +54,6 @@ export class DepositComponent implements OnInit {
   onSubmit() {
     this.loading = true; this.error = ''; this.success = '';
     this.txnService.deposit({ accountNumber: this.accountNumber, amount: this.amount, description: this.description || undefined })
-      .subscribe({ next: (res) => { this.success = `Deposited $${this.amount}. Ref: ${res.referenceNumber}`; this.loading = false; }, error: (err) => { this.error = err.error?.message || 'Deposit failed'; this.loading = false; } });
+      .subscribe({ next: (res) => { this.success = `Deposited ${this.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}. Ref: ${res.referenceNumber}`; this.loading = false; }, error: (err) => { this.error = err.error?.message || 'Deposit failed'; this.loading = false; } });
   }
 }

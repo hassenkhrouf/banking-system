@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { AccountResponse } from '../models/account.model';
 import { TransactionResponse } from '../models/transaction.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-  private apiUrl = 'http://localhost:8080/api/admin';
+  private apiUrl = `${environment.apiUrl}/admin`;
+
 
   constructor(private http: HttpClient) {}
 

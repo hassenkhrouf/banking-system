@@ -14,5 +14,5 @@ export const routes: Routes = [
   { path: 'withdraw', loadComponent: () => import('./components/withdraw/withdraw.component').then(m => m.WithdrawComponent), canActivate: [authGuard] },
   { path: 'transfer', loadComponent: () => import('./components/transfer/transfer.component').then(m => m.TransferComponent), canActivate: [authGuard] },
   { path: 'admin', loadComponent: () => import('./components/admin-panel/admin-panel.component').then(m => m.AdminPanelComponent), canActivate: [authGuard, adminGuard] },
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '' }
 ];

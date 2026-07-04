@@ -21,6 +21,17 @@ Thumbs.db
 # Environment files
 .env
 .env.*
+!.env.example
+
+# Seed data (contains default users)
+**/resources/data.sql
+
+# Java class files
+*.class
+
+# JAR files
+*.jar
+!backend/.mvn/wrapper/*.jar
 
 # Maven/Gradle
 backend/.mvn/

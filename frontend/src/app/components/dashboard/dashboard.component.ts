@@ -8,6 +8,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { AccountResponse } from '../../models/account.model';
 import { TransactionResponse } from '../../models/transaction.model';
 import { User } from '../../models/user.model';
+import { BANK_NAME } from '../../constants';
 
 @Component({
   selector: 'app-dashboard',
@@ -85,7 +86,7 @@ import { User } from '../../models/user.model';
                 @if (accounts.length === 0) {
                   <div class="summary-card">
                     <h6>No accounts yet</h6>
-                    <p class="mb-0">Create your first account to start banking with Northstar.</p>
+                    <p class="mb-0">Create your first account to start banking with {{ bankName }}.</p>
                     <a routerLink="/create-account" class="btn btn-primary btn-sm dash-empty-cta">Open your first account</a>
                   </div>
                 } @else {
@@ -169,7 +170,7 @@ import { User } from '../../models/user.model';
             @for (txn of recentTransactions; track txn.referenceNumber) {
               <a [routerLink]="['/accounts', getActivityAccount(txn)]" class="dash-activity-link">
                 <span class="dash-activity-icon" [ngClass]="getActivityIconClass(txn.type)" aria-hidden="true">
-                  @switch (txn.type?.toUpperCase()) {
+                  @switch (txn.type.toUpperCase()) {
                     @case ('DEPOSIT') {
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
                     }
@@ -201,6 +202,7 @@ import { User } from '../../models/user.model';
 })
 export class DashboardComponent implements OnInit {
   accounts: AccountResponse[] = [];
+  bankName = BANK_NAME;
   userName = '';
   loading = true;
   errorMessage = '';
@@ -247,7 +249,7 @@ export class DashboardComponent implements OnInit {
       this.accounts = [...(accounts || [])].sort((a, b) => (b.balance || 0) - (a.balance || 0));
       this.userAccountNumbers = new Set(this.accounts.map(acc => acc.accountNumber));
       this.totalBalance = this.accounts.reduce((sum, acc) => sum + (acc.balance || 0), 0);
-      this.activeAccounts = this.accounts.filter(acc => acc.status?.toUpperCase() !== 'CLOSED').length;
+      this.activeAccounts = this.accounts.filter(acc => acc.status.toUpperCase() !== 'CLOSED').length;
 
       const primary = this.accounts[0];
       this.primaryAccountLabel = primary
@@ -290,7 +292,7 @@ export class DashboardComponent implements OnInit {
   }
 
   formatAccountType(type: string): string {
-    switch (type?.toUpperCase()) {
+    switch (type.toUpperCase()) {
       case 'SAVINGS':
         return 'Savings';
       case 'CURRENT':
@@ -301,10 +303,10 @@ export class DashboardComponent implements OnInit {
   }
 
   formatTxnType(type: string): string {
-    switch (type?.toUpperCase()) {
+    switch (type.toUpperCase()) {
       case 'DEPOSIT':
         return 'Deposit';
-      case 'WITHDRAW':
+      case 'WITHDRAWAL':
         return 'Withdrawal';
       case 'TRANSFER':
         return 'Transfer';
@@ -314,9 +316,9 @@ export class DashboardComponent implements OnInit {
   }
 
   isPositiveTransaction(txn: TransactionResponse): boolean {
-    const type = txn.type?.toUpperCase();
+    const type = txn.type.toUpperCase();
     if (type === 'DEPOSIT') return true;
-    if (type === 'WITHDRAW') return false;
+    if (type === 'WITHDRAWAL') return false;
     if (type === 'TRANSFER') {
       const fromMine = txn.fromAccountNumber && this.userAccountNumbers.has(txn.fromAccountNumber);
       const toMine = txn.toAccountNumber && this.userAccountNumbers.has(txn.toAccountNumber);
@@ -332,7 +334,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getActivityAccount(txn: TransactionResponse): string {
-    const type = txn.type?.toUpperCase();
+    const type = txn.type.toUpperCase();
     if (type === 'DEPOSIT' && txn.toAccountNumber) return txn.toAccountNumber;
     if (type === 'WITHDRAW' && txn.fromAccountNumber) return txn.fromAccountNumber;
     if (type === 'TRANSFER') {
@@ -345,7 +347,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getActivityIconClass(type: string): string {
-    switch (type?.toUpperCase()) {
+    switch (type.toUpperCase()) {
       case 'DEPOSIT':
         return 'dash-activity-icon--deposit';
       case 'WITHDRAW':

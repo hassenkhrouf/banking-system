@@ -3,8 +3,6 @@ package com.banking.exception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,12 +32,4 @@ public class ApiError {
     private String path;
     private List<String> details;
 
-    public ApiError(HttpStatus httpStatus, String message, String path, List<String> details) {
-        this.timestamp = LocalDateTime.now();
-        this.status = httpStatus.value();
-        this.error = httpStatus.getReasonPhrase();
-        this.message = message;
-        this.path = path;
-        this.details = details;
-    }
 }

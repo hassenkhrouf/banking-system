@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { BANK_NAME } from '../../constants';
 
 @Component({
   selector: 'app-landing',
@@ -165,7 +167,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
         <div class="lp-features-grid">
           <div class="lp-feature-card" *ngFor="let f of features" #featureCard>
             <div class="lp-fc-icon" [ngStyle]="{background: f.bg, color: f.color}">
-              <svg [attr.width]="28" [attr.height]="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="f.svg"></svg>
+              <svg [attr.width]="28" [attr.height]="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" [innerHTML]="sanitizeSvg(f.svg)"></svg>
             </div>
             <h5>{{ f.title }}</h5>
             <p>{{ f.desc }}</p>
@@ -248,7 +250,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
         <div class="lp-cta-glow"></div>
         <div class="lp-cta-content">
           <h2>Ready to transform your<br><span class="text-gradient">business banking?</span></h2>
-          <p>Join thousands of businesses that trust Northstar Bank.<br>No hidden fees. No surprises. Just results.</p>
+          <p>Join thousands of businesses that trust {{ bankName }}.<br>No hidden fees. No surprises. Just results.</p>
           <a routerLink="/register" class="lp-btn lp-btn-primary lp-btn-lg">
             <span>Open your free account</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -262,7 +264,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
           <div class="lp-footer-brand">
             <div class="lp-footer-logo">
               <span class="brand-mark">N</span>
-              <strong>Northstar Bank</strong>
+              <strong>{{ bankName }}</strong>
             </div>
             <p>Modern business banking for teams that move fast.</p>
           </div>
@@ -286,7 +288,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
           </div>
         </div>
         <div class="lp-footer-bottom">
-          <span>&copy; {{ currentYear }} Northstar Bank. All rights reserved.</span>
+          <span>&copy; {{ currentYear }} {{ bankName }}. All rights reserved.</span>
           <div class="lp-footer-actions">
             <a routerLink="/login">Sign in</a>
             <a routerLink="/register" class="lp-footer-cta">Get started</a>
@@ -317,11 +319,13 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('testimonialsSection') testimonialsRef!: ElementRef;
 
   private platformId = inject(PLATFORM_ID);
+  private sanitizer = inject(DomSanitizer);
   prefersReducedMotion = false;
 
   words = ['smarter.', 'faster.', 'secure.', 'modern.'];
   currentWord = 0;
   currentYear = new Date().getFullYear();
+  bankName = BANK_NAME;
 
   partnerLogos = ['Stripe', 'Shopify', 'Notion', 'Linear', 'Vercel', 'Figma'];
 
@@ -352,6 +356,10 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
     'Multi-factor & biometric authentication',
     'SOC 2 certified & GDPR compliant'
   ];
+
+  sanitizeSvg(svg: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(svg);
+  }
 
   private destroyFns: (() => void)[] = [];
 
@@ -449,7 +457,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       delay: 1.2,
       ease: 'power2.out',
       onUpdate: () => {
-        c1.textContent = '$' + Math.round(counter1.val).toLocaleString();
+        c1.textContent = '$' + Math.round(counter1.val).toLocaleString('en-US');
       }
     });
     const counter2 = { val: 0 };
@@ -459,7 +467,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       delay: 1.4,
       ease: 'power2.out',
       onUpdate: () => {
-        c2.textContent = '$' + Math.round(counter2.val).toLocaleString();
+        c2.textContent = '$' + Math.round(counter2.val).toLocaleString('en-US');
       }
     });
     const counter3 = { val: 0 };
@@ -469,7 +477,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       delay: 1.6,
       ease: 'power2.out',
       onUpdate: () => {
-        c3.textContent = Math.round(counter3.val).toLocaleString();
+        c3.textContent = Math.round(counter3.val).toLocaleString('en-US');
       }
     });
   }

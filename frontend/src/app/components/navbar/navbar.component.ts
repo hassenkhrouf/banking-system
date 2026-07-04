@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { BANK_NAME } from '../../constants';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
       <div class="container" [class.container-fluid]="isLanding" [class.px-lg-5]="isLanding">
         <a class="navbar-brand d-flex align-items-center gap-2" [routerLink]="isLoggedIn ? '/dashboard' : '/'">
           <span class="brand-mark">N</span>
-          <span>Northstar Bank</span>
+          <span>{{ bankName }}</span>
         </a>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ms-auto align-items-center gap-lg-1">
@@ -68,6 +69,7 @@ export class NavbarComponent implements OnInit {
   isDarkMode = false;
   showThemeToggle = false;
   isLanding = false;
+  bankName = BANK_NAME;
 
   constructor(private authService: AuthService, private router: Router) {}
 

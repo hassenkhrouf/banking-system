@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginRequest, RegisterRequest, JwtResponse } from '../models/auth.model';
 import { User } from '../models/user.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
+
   private tokenKey = 'access_token';
   private refreshKey = 'refresh_token';
   private roleKey = 'user_role';
@@ -25,13 +27,6 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<JwtResponse> {
     return this.http.post<JwtResponse>(`${this.apiUrl}/login`, request).pipe(
-      tap(res => this.saveTokens(res))
-    );
-  }
-
-  refreshToken(): Observable<JwtResponse> {
-    const refresh = localStorage.getItem(this.refreshKey);
-    return this.http.post<JwtResponse>(`${this.apiUrl}/refresh`, { refreshToken: refresh }).pipe(
       tap(res => this.saveTokens(res))
     );
   }

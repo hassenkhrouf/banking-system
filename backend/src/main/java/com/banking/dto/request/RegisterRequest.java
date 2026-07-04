@@ -2,7 +2,7 @@ package com.banking.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -19,8 +19,9 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 40, message = "Password must be between 6 and 40 characters")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,40}$", message = "Password must be 6-40 characters with uppercase, lowercase and a digit")
     private String password;
 
+    @Pattern(regexp = "^\\+?[1-9][0-9]{7,14}$", message = "Phone number must be a valid international format (8-15 digits)")
     private String phone;
 }

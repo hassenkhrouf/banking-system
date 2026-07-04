@@ -57,7 +57,10 @@ export class TransferComponent implements OnInit {
 
   onSubmit() {
     this.loading = true; this.error = ''; this.success = '';
+    if (!this.fromAccountNumber || !this.toAccountNumber || !this.amount) { this.error = 'All fields are required'; this.loading = false; return; }
+    if (!/^ACC-\d{4}-\d{6}$/.test(this.toAccountNumber)) { this.error = 'Invalid account number format (e.g. ACC-2026-XXXXXX)'; this.loading = false; return; }
+    if (this.fromAccountNumber === this.toAccountNumber) { this.error = 'Cannot transfer to the same account'; this.loading = false; return; }
     this.txnService.transfer({ fromAccountNumber: this.fromAccountNumber, toAccountNumber: this.toAccountNumber, amount: this.amount, description: this.description || undefined })
-      .subscribe({ next: (res) => { this.success = `Transferred $${this.amount}. Ref: ${res.referenceNumber}`; this.loading = false; }, error: (err) => { this.error = err.error?.message || 'Transfer failed'; this.loading = false; } });
+      .subscribe({ next: (res) => { this.success = `Transferred ${this.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}. Ref: ${res.referenceNumber}`; this.loading = false; }, error: (err) => { this.error = err.error?.message || 'Transfer failed'; this.loading = false; } });
   }
 }

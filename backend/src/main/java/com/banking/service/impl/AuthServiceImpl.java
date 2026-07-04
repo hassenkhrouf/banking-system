@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
+    private static final String TOKEN_TYPE = "Bearer";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -60,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
         return JwtResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .tokenType("Bearer")
+                .tokenType(TOKEN_TYPE)
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .build();
@@ -87,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
         return JwtResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .tokenType("Bearer")
+                .tokenType(TOKEN_TYPE)
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .build();
@@ -109,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
         return JwtResponse.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
-                .tokenType("Bearer")
+                .tokenType(TOKEN_TYPE)
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .build();

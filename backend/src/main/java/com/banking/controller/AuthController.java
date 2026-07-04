@@ -1,6 +1,7 @@
 package com.banking.controller;
 
 import com.banking.dto.request.LoginRequest;
+import com.banking.dto.request.RefreshTokenRequest;
 import com.banking.dto.request.RegisterRequest;
 import com.banking.dto.response.JwtResponse;
 import com.banking.entity.User;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -33,9 +33,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtResponse> refresh(@RequestBody Map<String, String> body) {
-        String refreshToken = body.get("refreshToken");
-        JwtResponse response = authService.refreshToken(refreshToken);
+    public ResponseEntity<JwtResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        JwtResponse response = authService.refreshToken(request.getRefreshToken());
         return ResponseEntity.ok(response);
     }
 
