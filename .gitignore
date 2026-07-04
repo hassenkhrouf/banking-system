@@ -23,8 +23,7 @@ Thumbs.db
 .env.*
 !.env.example
 
-# Seed data (contains default users)
-**/resources/data.sql
+
 
 # Java class files
 *.class
