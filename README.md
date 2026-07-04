@@ -1,51 +1,89 @@
 # Banking System
 
-A full-stack banking application built with Angular for the frontend and Spring Boot for the backend. The project includes user authentication, account management, deposits, withdrawals, transfers, transaction history, and an admin panel.
+![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?logo=springboot&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Features
+A full-stack banking application with user authentication, account management, deposits, withdrawals, transfers, and transaction history.
 
-- User registration and login
-- JWT-based authentication
-- Account creation and account details view
-- Deposit, withdrawal, and transfer operations
-- Transaction history tracking
-- Admin dashboard and account management
+## Live Demo
+
+- **Frontend**: [https://banking-system-weld.vercel.app](https://banking-system-weld.vercel.app)
+- **Backend**: [https://banking-system-api-7aag.onrender.com](https://banking-system-api-7aag.onrender.com)
+
+## Architecture
+
+```
+┌─────────────┐     ┌──────────────┐     ┌────────────┐
+│  Vercel     │────▶│  Render      │────▶│  Render    │
+│  (Angular)  │     │  (Spring     │     │  (Postgres)│
+│  Client     │     │   Boot API)  │     │  16        │
+└─────────────┘     └──────────────┘     └────────────┘
+```
 
 ## Tech Stack
 
-- Frontend: Angular 21, TypeScript, RxJS
-- Backend: Spring Boot 3.3, Spring Security, Spring Data JPA
-- Database: PostgreSQL
-- Authentication: JWT
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | Angular 21, TypeScript, RxJS, GSAP, AOS |
+| **Backend** | Spring Boot 3.5, Spring Security, Spring Data JPA |
+| **Database** | PostgreSQL 16 |
+| **Auth** | JWT (access + refresh tokens) |
+| **Deployment** | Vercel (frontend), Render (backend + DB) |
+
+## Features
+
+### User Features
+- Register and login with JWT authentication
+- Create bank accounts (checking, savings)
+- Deposit and withdraw funds
+- Transfer money between accounts
+- View transaction history with filtering
+- Real-time account balance updates
+
+### Admin Features
+- Admin dashboard with user overview
+- Manage all user accounts
+- View all transactions
+
+### UI/UX
+- Responsive glass-morphism design
+- Loading states and animations
+- Dark mode support
+- Form validation with error messages
+- Toast notifications
 
 ## Prerequisites
 
-Before running the app, make sure you have the following installed:
-
 - Java 21+
-- Maven
+- Maven 3.9+
 - Node.js 20+
 - npm 10+
-- PostgreSQL 15+
+- PostgreSQL 16+
 
-## Database Setup
+## Local Setup
 
-1. Create a PostgreSQL database named `banking_db`.
-2. Run the SQL script in [database/schema.sql](database/schema.sql) to create the required tables.
-3. Update the database credentials in [backend/src/main/resources/application.yml](backend/src/main/resources/application.yml) if needed.
+### 1. Database
 
-## Backend Setup
+```bash
+docker compose up -d
+```
+
+Or create a local PostgreSQL database named `banking_db`.
+
+### 2. Backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-The backend will run at:
+Runs at `http://localhost:8080`.
 
-- http://localhost:8080
-
-## Frontend Setup
+### 3. Frontend
 
 ```bash
 cd frontend
@@ -53,11 +91,23 @@ npm install
 npm start
 ```
 
-The frontend will run at:
+Runs at `http://localhost:4200`.
 
-- http://localhost:4200
+## Environment Variables
 
-## Build Commands
+Create `.env` in the project root (see `.env.example`):
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DB_URL` | `jdbc:postgresql://localhost:5432/banking_db` | Database URL |
+| `DB_USERNAME` | `postgres` | Database user |
+| `DB_PASSWORD` | `postgres` | Database password |
+| `JWT_SECRET` | *(auto-generated)* | JWT signing secret |
+| `JWT_EXPIRATION_MS` | `900000` | Access token expiry (15 min) |
+| `JWT_REFRESH_EXPIRATION_MS` | `604800000` | Refresh token expiry (7 days) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:4200` | Allowed CORS origins |
+
+## Build
 
 ### Backend
 
@@ -75,24 +125,52 @@ npm run build
 
 ## Project Structure
 
-- [backend](backend) - Spring Boot REST API
-- [frontend](frontend) - Angular application
-- [database](database) - SQL schema and database setup
-
-## GitHub Push Instructions
-
-If you want to publish this project on GitHub, run:
-
-```bash
-git init
-git branch -M main
-git add .
-git commit -m "Initial commit"
-git remote add origin <your-github-repo-url>
-git push -u origin main
+```
+banking-system/
+├── backend/                 # Spring Boot REST API
+│   ├── src/main/java/       # Java source
+│   ├── src/main/resources/  # Config & SQL
+│   └── Dockerfile           # Multi-stage Docker build
+├── frontend/                # Angular application
+│   ├── src/app/             # Components, services, models
+│   └── vercel.json          # Vercel deployment config
+├── database/                # SQL schema
+├── docker-compose.yml       # Local PostgreSQL
+├── vercel.json              # Vercel monorepo config
+└── .env.example             # Environment variables template
 ```
 
-## Notes
+## API Endpoints
 
-- The backend expects PostgreSQL to be running locally.
-- If you change the database name or credentials, update the configuration file accordingly.
+### Auth
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login |
+| POST | `/api/auth/refresh` | Refresh JWT token |
+
+### Accounts
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/accounts` | List user accounts |
+| POST | `/api/accounts` | Create account |
+| GET | `/api/accounts/{number}` | Account details |
+
+### Transactions
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/transactions/deposit` | Deposit funds |
+| POST | `/api/transactions/withdraw` | Withdraw funds |
+| POST | `/api/transactions/transfer` | Transfer funds |
+| GET | `/api/transactions/{number}` | Transaction history |
+
+### Admin
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/admin/users` | List all users |
+| GET | `/api/admin/accounts` | List all accounts |
+| GET | `/api/admin/transactions` | List all transactions |
+
+## License
+
+[MIT](LICENSE)
